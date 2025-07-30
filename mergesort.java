@@ -4,7 +4,7 @@ public class mergesort {
 
     static void mergesort(int arr[] , int l, int u){
         if(l<u){
-            int mid = l+(u - 1)/2;
+            int mid = l+(u - l)/2;
             mergesort(arr, l, mid);
             mergesort(arr, mid+1, u);
             merge(arr , l , mid , u);
