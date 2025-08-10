@@ -1,9 +1,7 @@
 
-
-
 import java.util.Scanner;
 
-public class BST{
+public class BST {
 
     public static void main(String[] args) {
         Create tree = new Create();
@@ -21,7 +19,8 @@ public class BST{
         System.out.print("Preorder Traversal : ");
         tree.preorder();
         System.out.print("Postorder Traversal : ");
-        tree.postorder();     
+        tree.postorder();
+        
     }
 }
 
@@ -103,3 +102,4 @@ public class BST{
         }
     }
 
+}
