@@ -21,21 +21,7 @@ public class BST{
         System.out.print("Preorder Traversal : ");
         tree.preorder();
         System.out.print("Postorder Traversal : ");
-        tree.postorder();
-
-
-        System.out.print("Enter the number to search : ");
-        int s = sc.nextInt();
-       
-        boolean ans = tree.search(s);
-
-        if(ans == true ){
-            System.out.println(ans + " value " + s + " exist");
-        }
-        else{
-            System.out.println(ans + " value " + s + " does not exist");
-        }
-        
+        tree.postorder();     
     }
 }
 
@@ -117,23 +103,3 @@ public class BST{
         }
     }
 
-    //Search
-
-    boolean search(int s){
-        return serchRec(root , s);
-    }
-
-    boolean serchRec(Node root , int s){
-        if (root == null){
-            return false;
-        }
-        if(root.key == s){
-            return true;
-        }
-        if(root.key<s){
-            return serchRec(root.right, s);
-        }else{
-            return serchRec(root.left, s);
-        }
-    }
-}
