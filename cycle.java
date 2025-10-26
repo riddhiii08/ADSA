@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class cycle {
+public class Hamiltoniancycle {
 
     // Function to check if the vertex can be placed at current position
     static boolean isSafe(int vertex, int[][] graph, int[] path, int pos) {
@@ -87,3 +87,4 @@ public class cycle {
         sc.close();
     }
 }
+
