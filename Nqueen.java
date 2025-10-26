@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.*;
 
-class GFG {
+class Nqueen {
 
     // Function to check if it is safe to place
     static int isSafe(int[][] mat, int row, int col) {
@@ -88,4 +88,5 @@ class GFG {
             System.out.println();
         }
     }
+
 }
