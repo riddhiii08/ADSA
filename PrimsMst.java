@@ -1,112 +1,103 @@
-// A Java program for Prim's Minimum Spanning Tree (MST)
-// algorithm. The program is for adjacency matrix
-// representation of the graph
+import java.util.Scanner;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
+public class Prims
+{
 
-class Mst {
-
-    // A utility function to find the vertex with minimum
-    // key value, from the set of vertices not yet included
-    // in MST
-    int minKey(int key[], Boolean mstSet[])
+    // Function to find the vertex with minimum key value
+    static int findMinKey(int[] key, boolean[] mstSet, int V) 
     {
-        // Initialize min value
-        int min = Integer.MAX_VALUE, min_index = -1;
+        int min = Integer.MAX_VALUE, minIndex = -1;
 
-        for (int v = 0; v < mstSet.length; v++)
-            if (mstSet[v] == false && key[v] < min) {
+        for (int v = 0; v < V; v++) 
+        {
+            if (!mstSet[v] && key[v] < min) 
+            {
                 min = key[v];
-                min_index = v;
+                minIndex = v;
             }
-
-        return min_index;
+        }
+        return minIndex;
     }
 
-    // A utility function to print the constructed MST
-    // stored in parent[]
-    void printMST(int parent[], int graph[][])
+    // Function to print the constructed MST
+    static void printMST(int[] parent, int[][] graph, int V) 
     {
-        System.out.println("Edge \tWeight");
-        for (int i = 1; i < graph.length; i++)
-            System.out.println(parent[i] + " - " + i + "\t"
-                               + graph[parent[i]][i]);
+        int totalCost = 0;
+        System.out.println("Edge   Weight");
+        for (int i = 1; i < V; i++) 
+        {
+            System.out.println(parent[i] + " - " + i + "    " + graph[i][parent[i]]);
+            totalCost += graph[i][parent[i]];
+        }
+        System.out.println("Total cost of MST: " + totalCost);
     }
 
-    // Function to construct and print MST for a graph
-    // represented using adjacency matrix representation
-    void primMST(int graph[][])
+    // Function to implement Prim's algorithm
+    static void primMST(int[][] graph, int V) 
     {
-        int V = graph.length;
-        
-        // Array to store constructed MST
-        int parent[] = new int[V];
-
-        // Key values used to pick minimum weight edge in
-        // cut
-        int key[] = new int[V];
-
-        // To represent set of vertices included in MST
-        Boolean mstSet[] = new Boolean[V];
+        int[] parent = new int[V];  // Stores MST
+        int[] key = new int[V];     // Key values used to pick minimum weight edge
+        boolean[] mstSet = new boolean[V]; // To represent set of vertices included in MST
 
         // Initialize all keys as INFINITE
-        for (int i = 0; i < V; i++) {
+        for (int i = 0; i < V; i++) 
+        {
             key[i] = Integer.MAX_VALUE;
             mstSet[i] = false;
         }
 
-        // Always include first 1st vertex in MST.
-        // Make key 0 so that this vertex is
-        // picked as first vertex
-        key[0] = 0;
-      
-        // First node is always root of MST
-        parent[0] = -1;
+        // Always include first vertex in MST
+        key[0] = 0;     // Make key 0 so that this vertex is picked first
+        parent[0] = -1; // First node is always root of MST
 
         // The MST will have V vertices
-        for (int count = 0; count < V - 1; count++) {
-            
-            // Pick the minimum key vertex from the set of
-            // vertices not yet included in MST
-            int u = minKey(key, mstSet);
-
-            // Add the picked vertex to the MST Set
+        for (int count = 0; count < V - 1; count++) 
+        {
+            // Pick the minimum key vertex not yet included in MST
+            int u = findMinKey(key, mstSet, V);
             mstSet[u] = true;
 
-            // Update key value and parent index of the
-            // adjacent vertices of the picked vertex.
-            // Consider only those vertices which are not
-            // yet included in MST
-            for (int v = 0; v < V; v++)
-
-                // graph[u][v] is non zero only for adjacent
-                // vertices of m mstSet[v] is false for
-                // vertices not yet included in MST Update
-                // the key only if graph[u][v] is smaller
-                // than key[v]
-                if (graph[u][v] != 0 && mstSet[v] == false
-                    && graph[u][v] < key[v]) {
+            // Update key and parent of the adjacent vertices
+            for (int v = 0; v < V; v++) 
+            {
+                if (graph[u][v] != 0 && !mstSet[v] && graph[u][v] < key[v]) 
+                {
                     parent[v] = u;
                     key[v] = graph[u][v];
                 }
+            }
         }
 
         // Print the constructed MST
-        printMST(parent, graph);
+        printMST(parent, graph, V);
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) 
     {
-        Mst t = new Mst();
-        int graph[][] = new int[][] { { 0, 2, 0, 6, 0 },
-                                      { 2, 0, 3, 8, 5 },
-                                      { 0, 3, 0, 0, 7 },
-                                      { 6, 8, 0, 0, 9 },
-                                      { 0, 5, 7, 9, 0 } };
+        Scanner sc = new Scanner(System.in);
 
-        // Print the solution
-        t.primMST(graph);
+        // Input number of vertices
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        int[][] graph = new int[V][V];
+
+        // Input adjacency matrix
+        System.out.println("Enter adjacency matrix:");
+        for (int i = 0; i < V; i++) 
+        {
+            for (int j = 0; j < V; j++) 
+            {
+                graph[i][j] = sc.nextInt();
+                if (i == j) {
+                    graph[i][j] = 0; // No self-loop
+                }
+            }
+        }
+
+        // Run Prim's MST
+        primMST(graph, V);
+
+        sc.close();
     }
 }
